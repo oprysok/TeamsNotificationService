@@ -1,0 +1,85 @@
+{
+  "development": {
+    "config_id": "development",
+    "node_port": 8082,
+    "interval": 10000,
+    "storage": {
+      "database": "notification",
+      "username": "",
+      "password": "",
+      "options": {
+        "dialect": "sqlite",
+        "storage": "database.sqlite",
+        "define": {
+          "underscored": true
+        }
+      }
+    },
+    "datasources": {
+      "MySites": {
+        "events": {
+          "deployed": {
+            "groupBy": ["meta.Environment"],
+            "maxBatchSize": 3,
+            "url": "https://outlook.office.com/webhook/028fdbb6-8e00-42d9-995f-1d51a7f5f296@4ae954f5-3f64-490f-8634-e9206462325b/IncomingWebhook/35b370905feb4343a20b0493e5a9c23d/856b6c85-14ef-4042-8a6f-60fe8e36222d"
+          }
+        }
+      },
+      "DIDUI": {
+        "events": {
+          "deployed": {
+            "groupBy": ["meta.Environment"],
+            "url": "https://outlook.office.com/webhook/028fdbb6-8e00-42d9-995f-1d51a7f5f296@4ae954f5-3f64-490f-8634-e9206462325b/IncomingWebhook/e0032800038a4730b955953d57d15dab/856b6c85-14ef-4042-8a6f-60fe8e36222d"
+          }
+        }
+      },
+      "DEV": {
+        "events": {
+          "deployed": {
+            "groupBy": ["meta.Environment"],
+            "url": "https://outlook.office.com/webhook/31175715-86a2-4967-9a54-f24315657589@68e63241-88f5-4091-8e7d-30f60d1a1e25/IncomingWebhook/2897aa9092134c6284c975a021d55e52/0b38fd36-f1d2-4c62-b54e-8fd328cf02a8"
+          }
+        }
+      }
+    },
+    "log4js": {
+      "appenders": {
+        "file": {
+          "type": "file",
+          "filename": "NotificationService.log",
+          "maxLogSize": 256000,
+          "backups": 5
+        },
+        "con": {
+          "type": "stdout"
+        }
+      },
+      "categories": {
+        "default": {
+          "appenders": [
+            "file",
+            "con"
+          ],
+          "level": "trace"
+        }
+      }
+    }
+  },
+  "staging": {
+    "config_id": "staging",
+    "node_port": 8081,
+    "interval": 60000,
+    "storage": {
+      "options": {
+        "logging": false
+      }
+    },
+    "log4js": {
+      "categories": {
+        "default": {
+          "level": "info"
+        }
+      }
+    }
+  }
+}

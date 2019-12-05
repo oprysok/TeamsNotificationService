@@ -1,0 +1,47 @@
+{
+    "@type": "MessageCard",
+      "summary": {
+        "{{#if !(items.some(x=>x.meta.Status == 'Succeeded'))}}": 
+          "{{`Successfully deployed (${[...new Set(items.map(x=>x.meta.Environment))].join(' | ')})`}}",
+        "{{#else}}":
+          "Deployment failed "
+      },
+      "@context": "https:\/\/schema.org\/extensions",
+      "themeColor": "{{(items.some(x=>x.meta.Status == 'Succeeded')) ? '00BEC1' : 'dd4b39'}}",
+      "sections": [
+        {
+            "activityTitle": "{{`# **${items[0].project}** [${items[0].key}](${items[0].meta.ReleaseUrl})`}}",
+            "activitySubtitle": {
+                "{{#if !(items.some(x=>x.meta.Status !== 'Succeeded'))}}": 
+                    "{{`Successfully deployed (${[...new Set(items.map(x=>x.meta.Environment))].join(' | ')})`}}",
+                "{{#else}}":
+                    "Failed"
+            },
+            "activityImage": "https:\/\/arcweb.co\/wp-content\/uploads\/2016\/10\/react-logo-1000-transparent.png",
+            "activityImageStyle": "normal",
+            "startGroup": true
+        }
+      ],
+      "potentialAction": [
+        {
+          "@type": "OpenUri",
+          "name": "View on OctopusDeploy",
+          "targets": [
+            {
+              "os": "default",
+              "uri": "{{items[0].meta.ReleaseUrl}}"
+            }
+          ]
+        },
+        {
+          "@type": "OpenUri",
+          "name": "Visit",
+          "targets": [
+            {
+              "os": "default",
+              "uri": "{{items[0].meta.SiteUrl}}"
+            }
+          ]
+        }
+      ]
+    }

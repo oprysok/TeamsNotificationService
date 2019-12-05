@@ -1,0 +1,43 @@
+{
+  "@type": "MessageCard",
+    "summary": {
+      "{{#if !(items.some(x=>x.meta.Status == 'Succeeded'))}}": 
+        "{{`Successfully deployed (${[...new Set(items.map(x=>x.meta.Environment))].join(' | ')})`}}",
+      "{{#else}}":
+        "Deployment failed "
+    },
+    "@context": "https:\/\/schema.org\/extensions",
+    "themeColor": "{{(items.some(x=>x.meta.Status == 'Succeeded')) ? '00BEC1' : 'dd4b39'}}",
+    "sections": [
+      {
+          "activityTitle": "{{`# **${items[0].project}** [${items[0].key}](${items[0].meta.ReleaseUrl})`}}",
+          "activitySubtitle": {
+              "{{#if !(items.some(x=>x.meta.Status !== 'Succeeded'))}}": 
+                  "{{`Successfully deployed (${[...new Set(items.map(x=>x.meta.Environment))].join(' | ')})`}}",
+              "{{#else}}":
+                  "Failed"
+          },
+          "activityImage": "https:\/\/avatars3.githubusercontent.com\/u\/1419552?s=400&v=4",
+          "activityImageStyle": "normal",
+          "startGroup": true
+      }
+    ],
+    "potentialAction": [
+      {
+        "@type": "ActionCard",
+        "name": "Go To",
+        "actions": 
+        "{{items.map(i=>i.meta.URL.map(u => new Object({\"@type\": \"OpenUri\", \"name\": `${i.meta.Tenant} - ${(new URL(u).hostname.split('.')[0])}`, \"targets\": [{\"os\" : \"default\", \"uri\": u}]}) ) ).reduce((acc, val) => acc.concat(val), []);}}"
+      },
+      {
+        "@type": "OpenUri",
+        "name": "View on OctopusDeploy",
+        "targets": [
+          {
+            "os": "default",
+            "uri": "{{items[0].meta.ReleaseUrl}}"
+          }
+        ]
+      }
+    ]
+  }
